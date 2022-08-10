@@ -1,11 +1,12 @@
 <?php
+//code snipet to crete vandor in specific store
 //short code [create-store]
 function create_store() {
 
-	//Check if user come from form
+    //Check if user come from form
     if (isset($_POST['createstore'])) {
         $message = '';
-        $backendUrl = 'https://beta-backend.shoptype.com';
+        $backendUrl = 'https://dev-backend.shoptype.com';
         if (isset($_POST['store-token'])) {
             $token = $_POST['store-token'];
         } else {
@@ -16,7 +17,7 @@ function create_store() {
 
       //Authorised tokon for creating dokan store
         try {
-            $headers = array("authorization: " . $token, "origin: https://beta.shoptype.com", "referer: https://beta.shoptype.com/");
+            $headers = array("authorization: " . $token, "origin:https://dev.shoptype.com", "referer: https://dev.shoptype.com");
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, "{$backendUrl}/me");
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
@@ -56,13 +57,32 @@ function create_store() {
         }
         $user = get_user_by('email', "{$st_user->email}");
         //print_r($user);
-
+            $site_url = site_url('', 'https');
+        
+        if (isset($user->ID)) {
+            wp_clear_auth_cookie();
+            wp_set_current_user($user->ID);
+            wp_set_auth_cookie($user->ID);
+            $redirect_to = "{$site_url}/dashboard";
+            wp_safe_redirect($redirect_to);
+                    }
         //Send vandor data to the shoptype
-        $site_url = site_url('', 'https');
         try {
-            $woocomercedata = array('storeName' => $site_url, 'storeHostUrl' => $site_url, 'consumerKey' => "ck_737d009b7d6d5b9e18217dea814a39d9fe020346", 'consumerSecret' => "cs_001fcdefc8819a72cb7fb2d215618de107ad929f", 'dokan_vendor_id' => $user->ID, 'dokan_vendor_name' => $st_user->vendors[0]->name, 'enableCheckoutShoptype' => true, 'disable_all_products' => true, 'shippingServiceId' => "001");
-            //print_r($woocomercedata);
-            $payload = json_encode($woocomercedata);
+            $woocomercedata = array(
+                'storeName' => $site_url, 
+                'storeHostUrl' => $site_url, 
+                'consumerKey' => "ck_86a34cccae27a5babe1b3e07240182efe7fc5625", 
+                'consumerSecret' => "cs_db669378a1bf27ec197b1127ddd36b6f19159590", 
+                'dokan_vendor_id' => strval($user->ID), 
+                'dokan_vendor_name' => $st_user->vendors[0]->name, 
+                'enableCheckoutShoptype' => true, 
+                'shippingServiceId' => "001",
+                'restrictions'=>array('isAdult'=> "false", 'isAgeRestricted'=>"false")
+
+        );
+                        $payload = json_encode($woocomercedata);
+            print_r($payload);
+            
             // Prepare new cURL resource
             $ch = curl_init('https://dev-backend.shoptype.com/store/woo-commerce');
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -70,11 +90,13 @@ function create_store() {
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
             // Set HTTP Header for POST request
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "authorization: " . $token));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "authorization:".$token,"origin:https://dev.shoptype.com", "referer: https://dev.shoptype.com"));
             // Submit the POST request
             $result = curl_exec($ch);
             $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             // Close cURL session handle
+            // print_r(curl_getinfo($ch));
+            //echo 'HTTP code: ' . $httpcode;
             curl_close($ch);
         }
         catch(Exception $e) {
@@ -82,14 +104,7 @@ function create_store() {
             echo '<div class"statusMsg"><p>' . $message . '</p></div>';
             return false;
         }
-        if (isset($user->ID)) {
-            wp_clear_auth_cookie();
-            wp_set_current_user($user->ID);
-            wp_set_auth_cookie($user->ID);
-            $redirect_to = "{$site_url}/dashboard";
-            wp_safe_redirect($redirect_to);
-            exit();
-        }
+        
         $_POST = array();
 ?>
     <div><p>Store created <a href="/dashboard">click to visit</a></p></div>

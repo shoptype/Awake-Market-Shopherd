@@ -61,6 +61,8 @@ function create_store() {
                     'country' => $country
                 ),);
                 update_user_meta($user_id, 'dokan_enable_selling', 'yes');
+                update_user_meta( $user->ID, 'dokan_publishing', 'yes' );
+
                 update_user_meta($user_id, 'dokan_profile_settings', $dokan_settings);
                 update_user_meta($user_id, 'dokan_store_name', $st_user->vendors[0]->name);
             }
@@ -82,6 +84,8 @@ function create_store() {
                     'country' => $country
                 ),);
             update_user_meta($user->ID, 'dokan_enable_selling', 'yes');
+            update_user_meta( $user->ID, 'dokan_publishing', 'yes' );
+
             update_user_meta($user->ID, 'dokan_profile_settings', $dokan_settings);
             update_user_meta($user->ID, 'dokan_store_name', $st_user->vendors[0]->name);
         }

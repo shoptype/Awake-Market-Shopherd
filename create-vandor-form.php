@@ -414,7 +414,7 @@ jQuery('.image-upload-wrap').bind('dragover', function () {
 	jQuery('.image-upload-wrap').bind('dragleave', function () {
 		jQuery('.image-upload-wrap').removeClass('image-dropping');
 });
-   
+  setCountry();  
 </script>
 
   <?php

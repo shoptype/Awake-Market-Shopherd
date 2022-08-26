@@ -74,7 +74,7 @@ if( empty( $result ) ) {$message='invalid token'; echo '<div class"statusMsg"><p
         
         <div class="form-group">
               <label for="currency">Currency</label>
-  <select id="store-currency" name="store-currency" class="form-select">
+  <select id="store-currency" name="store-currency" class="form-select" required>
     <option value="CAD">CAD</option>
     <option value="USD">USD</option>
     <option value="INR">INR</option>
@@ -84,13 +84,13 @@ if( empty( $result ) ) {$message='invalid token'; echo '<div class"statusMsg"><p
         <div class="form-group">
          
               <label for="Address">Address</label>
-  <input type="text" name="store-Address" class="form-address">
+  <input type="text" name="store-Address" class="form-address" required>
         </div>
         
       </div>
       <div class="form-group">
          
-  <input type="text" name="store-Address1" class="form-address1">
+  <input type="text" name="store-Address1" class="form-address1" >
         </div>
 
         <div class="form-flex">
@@ -98,12 +98,12 @@ if( empty( $result ) ) {$message='invalid token'; echo '<div class"statusMsg"><p
         <div class="form-group">
          
               <label for="city">City</label>
-  <input type="text" name="store-city" class="form-city">
+  <input type="text" name="store-city" class="form-city" required>
         </div>
         <div class="form-group">
          
               <label for="zip">Zip</label>
-  <input type="text" name="store-zip" class="form-zip">
+  <input type="text" name="store-zip" class="form-zip" required>
         </div>
         
       </div>
@@ -113,14 +113,14 @@ if( empty( $result ) ) {$message='invalid token'; echo '<div class"statusMsg"><p
         <div class="form-group">
          
               <label for="Country">Country</label>
-  <select id="st-country" name="country" class="form-control">
+  <select id="st-country" name="country" class="form-control" required>
 <option value="">Select country</option>
 </select>
         </div>
         <div class="form-group">
          
               <label for="State">State</label>
-<select id="st-state" name="State" class="form-control"></select>
+<select id="st-state" name="State" class="form-control" required></select>
     
       </div>
         
@@ -129,7 +129,7 @@ if( empty( $result ) ) {$message='invalid token'; echo '<div class"statusMsg"><p
   <label for="store-image">Store image</label>
 
   <div class="image-upload-wrap">
-    <input class="file-upload-input" type='file' name='fileToUpload' id='fileToUpload' onchange="readURL(this);" accept="image/*" />
+    <input class="file-upload-input" type='file' name='fileToUpload' id='fileToUpload' onchange="readURL(this);" accept="image/*" required/>
     <div class="drag-text">
       JPG. PNG
 <br>

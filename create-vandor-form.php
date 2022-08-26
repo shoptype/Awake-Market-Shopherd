@@ -348,6 +348,10 @@ padding-bottom:35px;
   border: 0;
   transition: all .2s ease;
 }
+input[type=date], input[type=email], input[type=number], input[type=password], input[type=search], input[type=tel], input[type=text], input[type=url], select, textarea
+{
+  width: 100%;
+}
 </style>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/shoptype/Shoptype-JS@2.7.11/shoptype.js"></script>
 <script>
